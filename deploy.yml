@@ -6,7 +6,7 @@ on:
     - main
 
 env:
-  UNIQUE_APP_NAME: cartify
+  UNIQUE_APP_NAME: akkaartify
   AZURE_RESOURCE_GROUP_NAME: akka-resourcegroup
   AZURE_RESOURCE_GROUP_LOCATION: centralus
 
@@ -22,7 +22,7 @@ jobs:
         dotnet-version: 6.0.x
 
     - name: .NET publish shopping cart app
-      run: dotnet publish ./Silo/Orleans.ShoppingCart.Silo.csproj --configuration Release
+      run: dotnet publish ./src/Akka.ShoppingCart/Akka.ShoppingCart.csproj --configuration Release
 
     - name: Login to Azure
       uses: azure/login@v1
@@ -43,4 +43,4 @@ jobs:
         az webapp deploy --name ${{ env.UNIQUE_APP_NAME }} \
           --resource-group ${{ env.AZURE_RESOURCE_GROUP_NAME  }} \
           --clean true --restart true \
-          --type zip --src-path silo.zip --debug
+          --type zip --src-path cluster.zip --debug
