@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Akka.ShoppingCart.Abstraction", "src\Akka.ShoppingCart.Abstraction\Akka.ShoppingCart.Abstraction.csproj", "{9E50FAF4-4124-4B42-A2E5-D952376BAEE2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Akka.ShoppingCart", "src\Akka.ShoppingCart\Akka.ShoppingCart.csproj", "{FB710D09-B5D2-4A99-9B1E-D59030F32A2E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F1A2CD5F-E3DC-463F-A8CE-BA7EB7C274D8}"
+	ProjectSection(SolutionItems) = preProject
+		flex\app-service.bicep = flex\app-service.bicep
+		flex\logs-and-insights.bicep = flex\logs-and-insights.bicep
+		flex\main.bicep = flex\main.bicep
+		flex\storage.bicep = flex\storage.bicep
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9E50FAF4-4124-4B42-A2E5-D952376BAEE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E50FAF4-4124-4B42-A2E5-D952376BAEE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E50FAF4-4124-4B42-A2E5-D952376BAEE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E50FAF4-4124-4B42-A2E5-D952376BAEE2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB710D09-B5D2-4A99-9B1E-D59030F32A2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB710D09-B5D2-4A99-9B1E-D59030F32A2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB710D09-B5D2-4A99-9B1E-D59030F32A2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB710D09-B5D2-4A99-9B1E-D59030F32A2E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

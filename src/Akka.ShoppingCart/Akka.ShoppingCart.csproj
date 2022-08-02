@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <IsTransformWebConfigDisabled>false</IsTransformWebConfigDisabled>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Akka.Cluster.Hosting" Version="0.4.1" />
+        <PackageReference Include="Akka.Discovery.Azure" Version="0.2.5-beta637950158857913344" />
+        <PackageReference Include="Akka.Management.Cluster.Bootstrap" Version="0.2.5-beta1" />
+        <PackageReference Include="Akka.Persistence.Azure.Hosting" Version="0.9.0" />
+        <PackageReference Include="Azure.Identity" Version="1.6.0" />
+        <PackageReference Include="Blazor.Serialization" Version="2.0.9" />
+        <PackageReference Include="Blazor.LocalStorage" Version="2.0.9" />
+        <PackageReference Include="Bogus" Version="34.0.2" />
+        <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.21.0" />
+        <PackageReference Include="MudBlazor" Version="6.0.9" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Akka.ShoppingCart.Abstraction\Akka.ShoppingCart.Abstraction.csproj" />
+    </ItemGroup>
+
+    <Target Name="ZipPublishOutput" AfterTargets="Publish">
+        <Delete Files="$(ProjectDir)\..\..\cluster.zip" />
+        <ZipDirectory SourceDirectory="$(PublishDir)" DestinationFile="$(ProjectDir)\..\..\cluster.zip" />
+    </Target>    
+</Project>
