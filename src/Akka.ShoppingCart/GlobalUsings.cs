@@ -8,6 +8,7 @@
 
 global using System.Collections.Immutable;
 global using System.Security.Claims;
+global using System.Text;
 global using Bogus;
 global using Microsoft.ApplicationInsights.Channel;
 global using Microsoft.ApplicationInsights.Extensibility;
@@ -26,6 +27,7 @@ global using Akka.Actor;
 global using Akka.Cluster.Hosting;
 global using Akka.Configuration;
 global using Akka.DependencyInjection;
+global using Akka.Discovery;
 global using Akka.Discovery.Azure;
 global using Akka.Hosting;
 global using Akka.Management;
@@ -35,5 +37,3 @@ global using Akka.Persistence.Azure.Hosting;
 global using Akka.Persistence.Hosting;
 global using Akka.Remote.Hosting;
 global using Akka.Util;
-
-

@@ -48,6 +48,34 @@ public static class HostingExtensions
         return builder;
     }
 
+    public static AkkaConfigurationBuilder WithConfigDiscovery(
+        this AkkaConfigurationBuilder builder,
+        Dictionary<string, List<string>> services)
+    {
+        var sb = new StringBuilder();
+        foreach (var service in services)
+        {
+            sb.AppendLine($@"
+{service.Key} {{
+    endpoints = [ {string.Join(", ", service.Value.Select(s => $"\"{s}\""))} ]
+}}
+");
+        }
+        var config = ConfigurationFactory.ParseString($@"
+akka.discovery{{
+    method = config
+    config {{
+        services {{
+            {sb}
+        }}
+    }}
+}}").WithFallback(DiscoveryProvider.DefaultConfiguration());
+        
+        builder.AddHocon(config, HoconAddMode.Prepend);
+        return builder;
+    }
+    
+    
     // TODO: Move this to Akka.Hosting in the future.
     public static AkkaConfigurationBuilder WithExtensions(
         this AkkaConfigurationBuilder builder,
@@ -88,7 +116,7 @@ public static class HostingExtensions
         bool autoStart = true)
     {
         if (autoStart)
-            builder.WithExtensions(typeof(ClusterBootstrap));
+            builder.WithExtensions(typeof(ClusterBootstrapProvider));
         
         var setup = new ClusterBootstrapSetup();
         configure(setup);

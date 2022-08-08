@@ -41,8 +41,27 @@ public class Startup
             if (_context.HostingEnvironment.IsDevelopment())
             {
                 builder
+                    .WithAkkaManagement(setup =>
+                    {
+                        setup.Http.Hostname = "localhost";
+                        setup.Http.BindHostname = "localhost";
+                        setup.Http.Port = 18558;
+                        setup.Http.BindPort = 18558;
+                    })
+                    .WithClusterBootstrap(setup =>
+                    {
+                        setup.ContactPointDiscovery = new ContactPointDiscoverySetup
+                        {
+                            ServiceName = nameof(ShoppingCartService),
+                            RequiredContactPointsNr = 1
+                        };
+                    })
+                    .WithConfigDiscovery(new Dictionary<string, List<string>>
+                    {
+                        [nameof(ShoppingCartService)] = new() { "localhost:18558" }
+                    })
                     .WithRemoting("localhost", 12552)
-                    .WithClustering(new ClusterOptions{SeedNodes = new[]{new Address("akka.tcp", "ShoppingCart", "localhost", 12552)}})
+                    .WithClustering()
                     .WithInMemoryJournal()
                     .WithInMemorySnapshotStore()
                     .WithActors(async (_, registry) =>
@@ -69,7 +88,9 @@ public class Startup
                     .WithAkkaManagement(setup =>
                     {
                         setup.Http.Hostname = endpointAddress;
+                        setup.Http.BindHostname = endpointAddress;
                         setup.Http.Port = managementPort;
+                        setup.Http.BindPort = managementPort;
                     })
                     .WithClusterBootstrap(setup =>
                     {
