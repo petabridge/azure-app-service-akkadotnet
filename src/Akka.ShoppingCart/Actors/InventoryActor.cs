@@ -49,19 +49,23 @@ public class InventoryActor: ReceivePersistentActor
         
         Command<Inventory.AddOrUpdateProduct>(msg =>
         {
+            var sender = Sender;
             Persist(msg, updateProduct =>
             {
                 UpdateState(updateProduct);
                 SaveSnapshot(_productIds);
+                sender.Tell(Done.Instance);
             });
         });
 
         Command<Inventory.RemoveProduct>(msg =>
         {
+            var sender = Sender;
             Persist(msg, product =>
             {
                 UpdateState(product);
                 SaveSnapshot(_productIds);
+                sender.Tell(Done.Instance);
             });
         });
     }

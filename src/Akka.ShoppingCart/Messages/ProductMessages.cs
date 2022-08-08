@@ -87,4 +87,16 @@ public static class Product
         {
         }
     }
+    
+    public class CommandCompleted
+    {
+        public CommandCompleted(ProductBase originalCommand, IActorRef replyTo)
+        {
+            OriginalCommand = originalCommand;
+            ReplyTo = replyTo;
+        }
+
+        public ProductBase OriginalCommand { get; }
+        public IActorRef ReplyTo { get; }
+    }    
 }

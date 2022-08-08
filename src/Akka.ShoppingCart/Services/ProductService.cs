@@ -18,8 +18,8 @@ public class ProductService: BaseClusterService
         _productRegion = actorRegistry.Get<RegistryKey.ProductRegion>();
     }
 
-    public void CreateOrUpdateProductAsync(ProductDetails product)
-        => _productRegion.Tell(new Product.CreateOrUpdate(product));
+    public async Task CreateOrUpdateProductAsync(ProductDetails product)
+        => await _productRegion.Ask<Done>(new Product.CreateOrUpdate(product));
 
     public async Task<(bool, ProductDetails?)> TryTakeProductAsync(string productId, int quantity)
     {
@@ -31,8 +31,8 @@ public class ProductService: BaseClusterService
         return (isAvailable, details);
     }
 
-    public void ReturnProductAsync(string productId, int quantity)
-        => _productRegion.Tell(new Product.Return(productId, quantity));
+    public async Task ReturnProductAsync(string productId, int quantity)
+        => await _productRegion.Ask<Done>(new Product.Return(productId, quantity));
 
     public async Task<int> GetProductAvailability(string productId)
         => await _productRegion.Ask<int>(new Product.GetAvailability(productId));

@@ -29,32 +29,30 @@ public class Startup
         services.AddScoped<ComponentStateChangedObserver>();
         services.AddSingleton<ToastService>();
         services.AddLocalStorageServices();
-        //services.AddApplicationInsights("Node");
+        // Uncomment to enable ApplicationInsight logging
+        // services.AddApplicationInsights("Node");
         services.AddAkka("ShoppingCart", builder =>
         {
-            builder.AddShoppingCartRegions();
-            /*
-            builder.ConfigureLoggers(log =>
-                {
-                    log.AddLoggerFactory();
-                });
-            */
+            builder
+                // Uncomment to enable ApplicationInsight logging
+                // .ConfigureLoggers(config => config.AddLoggerFactory())
+                .AddShoppingCartRegions();
 
             if (_context.HostingEnvironment.IsDevelopment())
             {
                 builder
-                    .WithInMemoryJournal()
-                    .WithInMemorySnapshotStore()
                     .WithRemoting("localhost", 12552)
                     .WithClustering(new ClusterOptions{SeedNodes = new[]{new Address("akka.tcp", "ShoppingCart", "localhost", 12552)}})
-                    .WithActors((_, registry) =>
+                    .WithInMemoryJournal()
+                    .WithInMemorySnapshotStore()
+                    .WithActors(async (_, registry) =>
                     {
                         var productRegion = registry.Get<RegistryKey.ProductRegion>();
                         var faker = new ProductDetails().GetBogusFaker();
 
                         foreach (var product in faker.GenerateLazy(50))
                         {
-                            productRegion.Tell(new Product.CreateOrUpdate(product));
+                            await productRegion.Ask<Done>(new Product.CreateOrUpdate(product));
                         }
                     });
             }

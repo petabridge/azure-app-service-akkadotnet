@@ -110,7 +110,7 @@ public class ShoppingCartActor: ReceivePersistentActor
         CommandAsync<Messages.ShoppingCart.RemoveItem>(async message =>
         {
             var product = message.Product;
-            _productRegion.Tell(new Product.Return(product.Id, product.Quantity));
+            await _productRegion.Ask<Done>(new Product.Return(product.Id, product.Quantity));
 
             if (_cart.ContainsKey(product.Id))
             {

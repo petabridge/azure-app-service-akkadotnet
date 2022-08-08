@@ -59,12 +59,13 @@ public class ProductActor: ReceivePersistentActor
         Command<Product.GetDetails>(_ => Sender.Tell(_product, Self));
         Command<Product.Return>(message =>
         {
+            var sender = Sender;
             Persist(message, msg =>
             {
                 UpdateState(_product with
                 {
                     Quantity = _product.Quantity + msg.Quantity
-                });
+                }).PipeTo(Self, success: () => new Product.CommandCompleted(message, sender));
             });
         });
         Command<Product.TryTake>(message =>
@@ -81,15 +82,15 @@ public class ProductActor: ReceivePersistentActor
                 UpdateState(_product with
                 {
                     Quantity = _product.Quantity - msg.Quantity
-                });
-                sender.Tell(new Product.TakeResult(true, _product));
+                }).PipeTo(Self, success: () => new Product.CommandCompleted(message, sender));
             });
         });
         Command<Product.CreateOrUpdate>(message =>
         {
+            var sender = Sender;
             Persist(message, msg =>
             {
-                UpdateState(msg.ProductDetails);
+                UpdateState(msg.ProductDetails).PipeTo(Self, success: () => new Product.CommandCompleted(message, sender));
             });
         });
 
@@ -98,25 +99,31 @@ public class ProductActor: ReceivePersistentActor
 
     protected override bool Receive(object message)
     {
-        if (message is SaveSnapshotSuccess)
-            return true;
-        
-        return base.Receive(message);
+        switch (message)
+        {
+            case SaveSnapshotSuccess :
+                return true;
+            case Product.CommandCompleted evt:
+                evt.ReplyTo.Tell(Done.Instance);
+                return true;
+            default:
+                return base.Receive(message);
+        }
     }
 
-    private void UpdateState(ProductDetails product)
+    private async Task UpdateState(ProductDetails product)
     {
         var oldCategory = _product.Category;
         
         _product = product;
         SaveSnapshot(_product);
         
-        _inventory.Tell(new Inventory.AddOrUpdateProduct(product.Category, product));
+        await _inventory.Ask<Done>(new Inventory.AddOrUpdateProduct(product.Category, product));
 
         if (oldCategory != product.Category)
         {
             // If category changed, remove the product from the old inventory actor.
-            _inventory.Tell(new Inventory.RemoveProduct(oldCategory, product.Id));
+            await _inventory.Ask<Done>(new Inventory.RemoveProduct(oldCategory, product.Id));
         }
     }
 }
