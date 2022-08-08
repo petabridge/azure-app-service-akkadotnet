@@ -1,7 +1,8 @@
 ﻿// -----------------------------------------------------------------------
 //  <copyright file="GlobalUsings.cs" company="Akka.NET Project">
 //      Copyright (C) 2013-2022 .NET Foundation <https://github.com/akkadotnet/akka.net>
-//      Copyright (c) Microsoft
+//      Copyright (c) Microsoft. All rights reserved.
+//      Licensed under the MIT License.
 //  </copyright>
 // -----------------------------------------------------------------------
 
@@ -15,7 +16,6 @@ global using MudBlazor;
 global using MudBlazor.Services;
 
 global using Akka.ShoppingCart.Abstraction;
-global using Akka.ShoppingCart.Abstraction.Messages;
 global using Akka.ShoppingCart.Actors;
 global using Akka.ShoppingCart.Extensions;
 global using Akka.ShoppingCart.Messages;
@@ -26,7 +26,10 @@ global using Akka.Actor;
 global using Akka.Cluster.Hosting;
 global using Akka.Configuration;
 global using Akka.DependencyInjection;
+global using Akka.Discovery.Azure;
 global using Akka.Hosting;
+global using Akka.Management;
+global using Akka.Management.Cluster.Bootstrap;
 global using Akka.Persistence;
 global using Akka.Persistence.Azure.Hosting;
 global using Akka.Persistence.Hosting;
