@@ -23,7 +23,7 @@ public class ShoppingCartService: BaseClusterService
         if (userId is null)
             return new HashSet<CartItem>();
 
-        return await _cartRegion.Ask<HashSet<CartItem>>(new Abstraction.Messages.ShoppingCart.GetAllItems(userId));
+        return await _cartRegion.Ask<HashSet<CartItem>>(new Messages.ShoppingCart.GetAllItems(userId));
     }
 
     public async Task<int> GetCartCountAsync()
@@ -31,7 +31,7 @@ public class ShoppingCartService: BaseClusterService
         var userId = UserId;
         if (userId is null)
             return 0;
-        return await _cartRegion.Ask<int>(new Abstraction.Messages.ShoppingCart.GetTotalItemsInCart(userId));
+        return await _cartRegion.Ask<int>(new Messages.ShoppingCart.GetTotalItemsInCart(userId));
     }
 
     public void EmptyCart()
@@ -39,7 +39,7 @@ public class ShoppingCartService: BaseClusterService
         var userId = UserId;
         if (userId is null)
             return;
-        _cartRegion.Tell(new Abstraction.Messages.ShoppingCart.EmptyCart(userId));
+        _cartRegion.Tell(new Messages.ShoppingCart.EmptyCart(userId));
     }
 
     public async Task<bool> AddOrUpdateItemAsync(int quantity, ProductDetails product)
@@ -49,7 +49,7 @@ public class ShoppingCartService: BaseClusterService
             return false;
 
         return await _cartRegion.Ask<bool>(
-            new Abstraction.Messages.ShoppingCart.AddOrUpdateItem(userId, quantity, product));
+            new Messages.ShoppingCart.AddOrUpdateItem(userId, quantity, product));
     }
 
     public void RemoveItem(ProductDetails product)
@@ -58,6 +58,6 @@ public class ShoppingCartService: BaseClusterService
         if (userId is null)
             return;
         
-        _cartRegion.Tell(new Abstraction.Messages.ShoppingCart.RemoveItem(userId, product));
+        _cartRegion.Tell(new Messages.ShoppingCart.RemoveItem(userId, product));
     }
 }

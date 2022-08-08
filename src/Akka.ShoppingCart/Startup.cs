@@ -66,50 +66,38 @@ public class Startup
                     throw new Exception("Insufficient private ports configured.");
                 var (remotePort, managementPort) = (int.Parse(strPorts[0]), int.Parse(strPorts[1]));
                 var connectionString = _context.Configuration["AZURE_STORAGE_CONNECTION_STRING"];
-                var config = (Config)@$"
-akka {{
-    extensions = [""Akka.Management.Cluster.Bootstrap.ClusterBootstrapProvider, Akka.Management.Cluster.Bootstrap""]
-
-    management {{
-        http {{
-            hostname = {endpointAddress}
-            port = {managementPort}
-        }}
-        cluster.bootstrap {{
-            contact-point-discovery {{
-                discovery-method = akka.discovery
-                service-name = {nameof(ShoppingCartService)}
-                port-name = management
-                required-contact-point-nr = 1
-            }}
-        }}
-    }}
-
-    discovery {{
-        method = azure
-        azure {{
-            class = ""Akka.Discovery.Azure.AzureServiceDiscovery, Akka.Discovery.Azure""
-            public-hostname = {endpointAddress}
-            public-port = {managementPort}
-            service-name = {nameof(ShoppingCartService)}
-            connection-string = ""{connectionString}""
-        }}
-    }}
-}}";
                 
                 builder
-                    .AddHocon(config, HoconAddMode.Prepend)
+                    .WithAkkaManagement(setup =>
+                    {
+                        setup.Http.Hostname = endpointAddress;
+                        setup.Http.Port = managementPort;
+                    })
+                    .WithClusterBootstrap(setup =>
+                    {
+                        setup.ContactPointDiscovery = new ContactPointDiscoverySetup
+                        {
+                            ServiceName = nameof(ShoppingCartService),
+                            RequiredContactPointsNr = 2
+                        };
+                    })
+                    .WithAzureDiscovery(setup =>
+                    {
+                        setup.HostName = endpointAddress;
+                        setup.Port = managementPort;
+                        setup.ServiceName = nameof(ShoppingCartService);
+                        setup.ConnectionString = connectionString;
+                    })
                     .WithClustering()
                     .WithRemoting(endpointAddress, remotePort)
-                    .WithAzurePersistence(connectionString);
+                    .WithAzureTableJournal(connectionString)
+                    .WithAzureBlobsSnapshotStore(connectionString);
             }
         });
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
-        app.UseDeveloperExceptionPage();
-        /*
         if (env.IsDevelopment())
         {
             app.UseDeveloperExceptionPage();
@@ -119,7 +107,6 @@ akka {{
             app.UseExceptionHandler("/Error");
             app.UseHsts();
         }
-        */
 
         app.UseHttpsRedirection();
         app.UseStaticFiles();

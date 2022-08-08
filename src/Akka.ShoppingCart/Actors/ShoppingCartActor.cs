@@ -39,23 +39,23 @@ public class ShoppingCartActor: ReceivePersistentActor
             _cart = builder.ToImmutable();
         });
         
-        Recover<Abstraction.Messages.ShoppingCart.AddOrUpdateItem>(msg =>
+        Recover<Messages.ShoppingCart.AddOrUpdateItem>(msg =>
         {
             _cart = _cart.SetItem(msg.Product.Id, ToCartItem(msg.Quantity, msg.Product));
         });
 
-        Recover<Abstraction.Messages.ShoppingCart.EmptyCart>(msg =>
+        Recover<Messages.ShoppingCart.EmptyCart>(msg =>
         {
             _cart = ImmutableDictionary<string, CartItem>.Empty;
         });
 
-        Recover<Abstraction.Messages.ShoppingCart.RemoveItem>(msg =>
+        Recover<Messages.ShoppingCart.RemoveItem>(msg =>
         {
             _cart = _cart.Remove(msg.Product.Id);
         });
         #endregion
         
-        CommandAsync<Abstraction.Messages.ShoppingCart.AddOrUpdateItem>(async message =>
+        CommandAsync<Messages.ShoppingCart.AddOrUpdateItem>(async message =>
         {
             var sender = Sender;
             var product = message.Product;
@@ -74,7 +74,7 @@ public class ShoppingCartActor: ReceivePersistentActor
             if (isAvailable && claimedProduct is not null)
             {
                 var persisted =
-                    new Abstraction.Messages.ShoppingCart.AddOrUpdateItem(PersistenceId, quantity, claimedProduct);
+                    new Messages.ShoppingCart.AddOrUpdateItem(PersistenceId, quantity, claimedProduct);
                 Persist(persisted, msg =>
                 {
                     _cart = _cart.SetItem(claimedProduct.Id, ToCartItem(msg.Quantity, msg.Product));
@@ -88,7 +88,7 @@ public class ShoppingCartActor: ReceivePersistentActor
             }
         });
         
-        Command<Abstraction.Messages.ShoppingCart.EmptyCart>(message =>
+        Command<Messages.ShoppingCart.EmptyCart>(message =>
         {
             Persist(message, _ =>
             {
@@ -97,17 +97,17 @@ public class ShoppingCartActor: ReceivePersistentActor
             });
         });
 
-        Command<Abstraction.Messages.ShoppingCart.GetAllItems>(_ =>
+        Command<Messages.ShoppingCart.GetAllItems>(_ =>
         {
             Sender.Tell(_cart.Values.ToHashSet());
         });
         
-        Command<Abstraction.Messages.ShoppingCart.GetTotalItemsInCart>(_ =>
+        Command<Messages.ShoppingCart.GetTotalItemsInCart>(_ =>
         {
             Sender.Tell(_cart.Count);
         });
         
-        Command<Abstraction.Messages.ShoppingCart.RemoveItem>(message =>
+        CommandAsync<Messages.ShoppingCart.RemoveItem>(async message =>
         {
             var product = message.Product;
             _productRegion.Tell(new Product.Return(product.Id, product.Quantity));
