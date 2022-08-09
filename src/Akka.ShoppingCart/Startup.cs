@@ -28,6 +28,7 @@ public class Startup
         services.AddSingleton<ProductService>();
         services.AddScoped<ComponentStateChangedObserver>();
         services.AddSingleton<ToastService>();
+        services.AddSingleton<ClusterStateBroadcastService>();
         services.AddLocalStorageServices();
         // Uncomment to enable ApplicationInsight logging
         // services.AddApplicationInsights("Node");
@@ -36,7 +37,12 @@ public class Startup
             builder
                 // Uncomment to enable ApplicationInsight logging
                 // .ConfigureLoggers(config => config.AddLoggerFactory())
-                .AddShoppingCartRegions();
+                .AddShoppingCartRegions()
+                .WithActors((system, registry) =>
+                {
+                    var listener = system.ActorOf(Props.Create(() => new ClusterListenerActor()));
+                    registry.TryRegister<RegistryKey.ClusterStateListener>(listener);
+                });
 
             if (_context.HostingEnvironment.IsDevelopment())
             {

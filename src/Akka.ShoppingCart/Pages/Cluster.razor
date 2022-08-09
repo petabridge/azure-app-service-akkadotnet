@@ -1,0 +1,37 @@
+﻿@page "/cluster"
+
+<MudContainer MaxWidth="MaxWidth.Medium" Class="mt-16">
+    <MudStack>
+        <MudToolBar DisableGutters="true">
+            <MudText Typo="Typo.h4">Akka Cluster Status</MudText>
+            <MudSpacer />
+            <MudText Typo="Typo.h6">Leader: @_state!.Leader?.ToString()</MudText>
+        </MudToolBar>
+        <MudToolBar DisableGutters="true">
+            <MudText Typo="Typo.h4">Members</MudText>
+        </MudToolBar>
+        <MudTable Items="_state!.Members" RowStyleFunc="MemberRowStyle">
+            <HeaderContent>
+                <MudTh>Address</MudTh>
+                <MudTh>Status</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel="Address">@context.Address</MudTd>
+                <MudTd DataLabel="Status">@context.Status</MudTd>
+            </RowTemplate>
+        </MudTable>
+        <MudToolBar DisableGutters="true">
+            <MudText Typo="Typo.h4">Unreachable</MudText>
+        </MudToolBar>
+        <MudTable Items="_state.Unreachable">
+            <HeaderContent>
+                <MudTh>Address</MudTh>
+                <MudTh>Status</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel="Address">@context.Address</MudTd>
+                <MudTd DataLabel="Status">@context.Status</MudTd>
+            </RowTemplate>
+        </MudTable>
+    </MudStack>
+</MudContainer>

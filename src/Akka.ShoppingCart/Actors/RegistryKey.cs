@@ -18,4 +18,7 @@ public static class RegistryKey
     
     public struct ShoppingCartRegion
     { }
+    
+    public struct ClusterStateListener
+    { }
 }

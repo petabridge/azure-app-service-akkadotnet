@@ -1,6 +1,4 @@
-﻿@inject ShoppingCartService Cart
-
-<MudNavMenu Rounded="true" Margin=Margin.Normal Class="pa-2" Color=Color.Tertiary>
+﻿<MudNavMenu Rounded="true" Margin=Margin.Normal Class="pa-2" Color=Color.Tertiary>
     <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Filled.Home">Home</MudNavLink>
     <MudNavLink Href="shop" Icon="@Icons.Filled.CreditCard">Shop Inventory</MudNavLink>
     <MudNavLink Href="products" Icon="@Icons.Filled.ProductionQuantityLimits">Product Management</MudNavLink>
@@ -9,25 +7,9 @@
             Cart
         </MudBadge>
     </MudNavLink>
+    <MudNavLink Href="cluster" Icon="@Icons.Filled.Hub">
+        <MudBadge Color="Color.Tertiary" Overlap="true" Bordered="true" Content="@_clusterCount" Origin="Origin.CenterRight" Class="mud-width-full">
+            Akka Cluster Status
+        </MudBadge>
+    </MudNavLink>
 </MudNavMenu>
-
-@code {
-    int _count = 0;
-
-    [Inject]
-    public ComponentStateChangedObserver Observer { get; set; } = null!;
-
-    protected override async Task OnInitializedAsync()
-    {
-        Observer.OnStateChanged += UpdateCountAsync;
-
-        await UpdateCountAsync();
-    }
-
-    Task UpdateCountAsync() =>
-        InvokeAsync(async () =>
-        {
-            _count = await Cart.GetCartCountAsync();
-            StateHasChanged();
-        });
-}
