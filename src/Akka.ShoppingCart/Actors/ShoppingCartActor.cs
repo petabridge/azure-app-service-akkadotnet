@@ -88,13 +88,15 @@ public class ShoppingCartActor: ReceivePersistentActor
             }
         });
         
-        Command<Messages.ShoppingCart.EmptyCart>(message =>
+        CommandAsync<Messages.ShoppingCart.EmptyCart>(async _ =>
         {
-            Persist(message, _ =>
+            var sender = Sender;
+            foreach (var item in _cart.Values)
             {
-                _cart = ImmutableDictionary<string, CartItem>.Empty;
-                SaveSnapshot(_cart);
-            });
+                await _productRegion.Ask<Done>(new Product.Return(item.Product.Id, item.Quantity));
+            }
+            _cart = ImmutableDictionary<string, CartItem>.Empty;
+            sender.Tell(Done.Instance);
         });
 
         Command<Messages.ShoppingCart.GetAllItems>(_ =>
@@ -109,14 +111,19 @@ public class ShoppingCartActor: ReceivePersistentActor
         
         CommandAsync<Messages.ShoppingCart.RemoveItem>(async message =>
         {
+            var sender = Sender;
             var product = message.Product;
-            await _productRegion.Ask<Done>(new Product.Return(product.Id, product.Quantity));
+            if (!_cart.TryGetValue(product.Id, out var cartItem))
+                return;
+            
+            await _productRegion.Ask<Done>(new Product.Return(product.Id, cartItem.Quantity));
 
             if (_cart.ContainsKey(product.Id))
             {
                 _cart = _cart.Remove(product.Id);
                 SaveSnapshot(_cart);
             }
+            sender.Tell(Done.Instance);
         });
     }
     

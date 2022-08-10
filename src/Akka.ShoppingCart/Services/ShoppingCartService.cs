@@ -34,12 +34,12 @@ public class ShoppingCartService: BaseClusterService
         return await _cartRegion.Ask<int>(new Messages.ShoppingCart.GetTotalItemsInCart(userId));
     }
 
-    public void EmptyCart()
+    public async Task EmptyCartAsync()
     {
         var userId = UserId;
         if (userId is null)
             return;
-        _cartRegion.Tell(new Messages.ShoppingCart.EmptyCart(userId));
+        await _cartRegion.Ask<Done>(new Messages.ShoppingCart.EmptyCart(userId));
     }
 
     public async Task<bool> AddOrUpdateItemAsync(int quantity, ProductDetails product)
@@ -52,12 +52,12 @@ public class ShoppingCartService: BaseClusterService
             new Messages.ShoppingCart.AddOrUpdateItem(userId, quantity, product));
     }
 
-    public void RemoveItem(ProductDetails product)
+    public async Task RemoveItemAsync(ProductDetails product)
     {
         var userId = UserId;
         if (userId is null)
             return;
         
-        _cartRegion.Tell(new Messages.ShoppingCart.RemoveItem(userId, product));
+        await _cartRegion.Ask<Done>(new Messages.ShoppingCart.RemoveItem(userId, product));
     }
 }

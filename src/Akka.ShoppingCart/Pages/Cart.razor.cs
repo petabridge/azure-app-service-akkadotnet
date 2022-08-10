@@ -29,10 +29,11 @@ public sealed partial class Cart
 
     private async Task OnItemRemovedAsync(ProductDetails product)
     {
-        ShoppingCart.RemoveItem(product);
+        await ShoppingCart.RemoveItemAsync(product);
         await Observer.NotifyStateChangedAsync();
 
         _ = _cartItems?.RemoveWhere(item => item.Product == product);
+        await InvokeAsync(StateHasChanged);
     }
 
     private async Task OnItemUpdatedAsync((int Quantity, ProductDetails Product) tuple)
@@ -43,9 +44,10 @@ public sealed partial class Cart
 
     private async Task EmptyCartAsync()
     {
-        ShoppingCart.EmptyCart();
+        await ShoppingCart.EmptyCartAsync();
         await Observer.NotifyStateChangedAsync();
 
         _cartItems?.Clear();
+        await InvokeAsync(StateHasChanged);
     }
 }

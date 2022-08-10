@@ -6,6 +6,8 @@
 //  </copyright>
 // -----------------------------------------------------------------------
 
+using Akka.Event;
+
 namespace Akka.ShoppingCart.Actors;
 
 public class ProductActor: ReceivePersistentActor
@@ -15,11 +17,13 @@ public class ProductActor: ReceivePersistentActor
     
     private ProductDetails _product;
     private readonly IActorRef _inventory;
+    private readonly ILoggingAdapter _log;
 
     public override string PersistenceId => _product.Id;
 
     public ProductActor(string persistenceId)
     {
+        _log = Context.GetLogger();
         _product = new ProductDetails{Id = persistenceId};
         
         var resolver = DependencyResolver.For(Context.System);
@@ -82,7 +86,14 @@ public class ProductActor: ReceivePersistentActor
                 UpdateState(_product with
                 {
                     Quantity = _product.Quantity - msg.Quantity
-                }).PipeTo(Self, success: () => new Product.CommandCompleted(message, sender));
+                }).PipeTo(
+                    sender, 
+                    success: () => new Product.TakeResult(true, _product),
+                    failure: ex =>
+                    {
+                        _log.Warning(ex, $"[Command: {nameof(Product.TryTake)}]Failed to update state.");
+                        return new Product.TakeResult(false);
+                    });
             });
         });
         Command<Product.CreateOrUpdate>(message =>
