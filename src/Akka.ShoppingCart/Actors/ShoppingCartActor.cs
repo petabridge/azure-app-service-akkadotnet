@@ -13,7 +13,7 @@ public class ShoppingCartActor: ReceivePersistentActor
     public static Props Props(string userId)
         => Actor.Props.Create(() => new ShoppingCartActor(userId));
 
-    private ImmutableDictionary<string, CartItem> _cart = ImmutableDictionary<string, CartItem>.Empty;
+    private Dictionary<string, CartItem> _cart = new ();
     private readonly IActorRef _productRegion;
 
     public override string PersistenceId { get; }
@@ -30,28 +30,22 @@ public class ShoppingCartActor: ReceivePersistentActor
 
         Recover<SnapshotOffer>(msg =>
         {
-            var oldCart = (ImmutableDictionary<string, CartItem>)msg.Snapshot;
-            var builder = ImmutableDictionary.CreateBuilder<string, CartItem>();
-            foreach (var kvp in oldCart)
-            {
-                builder[kvp.Key] = kvp.Value;
-            }
-            _cart = builder.ToImmutable();
+            _cart = (Dictionary<string, CartItem>)msg.Snapshot;
         });
         
         Recover<Messages.ShoppingCart.AddOrUpdateItem>(msg =>
         {
-            _cart = _cart.SetItem(msg.Product.Id, ToCartItem(msg.Quantity, msg.Product));
+            _cart.AddOrSet(msg.Product.Id, ToCartItem(msg.Quantity, msg.Product));
         });
 
-        Recover<Messages.ShoppingCart.EmptyCart>(msg =>
+        Recover<Messages.ShoppingCart.EmptyCart>(_ =>
         {
-            _cart = ImmutableDictionary<string, CartItem>.Empty;
+            _cart.Clear();
         });
 
         Recover<Messages.ShoppingCart.RemoveItem>(msg =>
         {
-            _cart = _cart.Remove(msg.Product.Id);
+            _cart.Remove(msg.Product.Id);
         });
         #endregion
         
@@ -75,12 +69,9 @@ public class ShoppingCartActor: ReceivePersistentActor
             {
                 var persisted =
                     new Messages.ShoppingCart.AddOrUpdateItem(PersistenceId, quantity, claimedProduct);
-                Persist(persisted, msg =>
-                {
-                    _cart = _cart.SetItem(claimedProduct.Id, ToCartItem(msg.Quantity, msg.Product));
-                    SaveSnapshot(_cart);
-                    sender.Tell(true);
-                });
+                _cart.AddOrSet(claimedProduct.Id, ToCartItem(persisted.Quantity, persisted.Product));
+                SaveSnapshot(_cart);
+                sender.Tell(true);
             }
             else
             {
@@ -95,7 +86,8 @@ public class ShoppingCartActor: ReceivePersistentActor
             {
                 await _productRegion.Ask<Done>(new Product.Return(item.Product.Id, item.Quantity));
             }
-            _cart = ImmutableDictionary<string, CartItem>.Empty;
+            _cart.Clear();
+            SaveSnapshot(_cart);
             sender.Tell(Done.Instance);
         });
 
@@ -120,7 +112,7 @@ public class ShoppingCartActor: ReceivePersistentActor
 
             if (_cart.ContainsKey(product.Id))
             {
-                _cart = _cart.Remove(product.Id);
+                _cart.Remove(product.Id);
                 SaveSnapshot(_cart);
             }
             sender.Tell(Done.Instance);

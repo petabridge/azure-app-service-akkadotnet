@@ -6,7 +6,6 @@
 //  </copyright>
 // -----------------------------------------------------------------------
 
-global using System.Collections.Immutable;
 global using System.Security.Claims;
 global using System.Text;
 global using Bogus;
@@ -37,3 +36,4 @@ global using Akka.Persistence.Azure.Hosting;
 global using Akka.Persistence.Hosting;
 global using Akka.Remote.Hosting;
 global using Akka.Util;
+global using Akka.Util.Internal;

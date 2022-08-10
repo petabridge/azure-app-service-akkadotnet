@@ -6,8 +6,6 @@
 //  </copyright>
 // -----------------------------------------------------------------------
 
-using Akka.Event;
-
 namespace Akka.ShoppingCart.Actors;
 
 public class ProductActor: ReceivePersistentActor
@@ -17,13 +15,11 @@ public class ProductActor: ReceivePersistentActor
     
     private ProductDetails _product;
     private readonly IActorRef _inventory;
-    private readonly ILoggingAdapter _log;
 
     public override string PersistenceId => _product.Id;
 
     public ProductActor(string persistenceId)
     {
-        _log = Context.GetLogger();
         _product = new ProductDetails{Id = persistenceId};
         
         var resolver = DependencyResolver.For(Context.System);
@@ -61,18 +57,16 @@ public class ProductActor: ReceivePersistentActor
         
         Command<Product.GetAvailability>(_ => Sender.Tell(_product.Quantity, Self));
         Command<Product.GetDetails>(_ => Sender.Tell(_product, Self));
-        Command<Product.Return>(message =>
+        CommandAsync<Product.Return>(async message =>
         {
             var sender = Sender;
-            Persist(message, msg =>
+            await UpdateState(_product with
             {
-                UpdateState(_product with
-                {
-                    Quantity = _product.Quantity + msg.Quantity
-                }).PipeTo(Self, success: () => new Product.CommandCompleted(message, sender));
+                Quantity = _product.Quantity + message.Quantity
             });
+            sender.Tell(Done.Instance);
         });
-        Command<Product.TryTake>(message =>
+        CommandAsync<Product.TryTake>(async message =>
         {
             if (_product.Quantity < message.Quantity)
             {
@@ -81,28 +75,17 @@ public class ProductActor: ReceivePersistentActor
             }
 
             var sender = Sender;
-            Persist(message, msg =>
+            await UpdateState(_product with
             {
-                UpdateState(_product with
-                {
-                    Quantity = _product.Quantity - msg.Quantity
-                }).PipeTo(
-                    sender, 
-                    success: () => new Product.TakeResult(true, _product),
-                    failure: ex =>
-                    {
-                        _log.Warning(ex, $"[Command: {nameof(Product.TryTake)}]Failed to update state.");
-                        return new Product.TakeResult(false);
-                    });
+                Quantity = _product.Quantity - message.Quantity
             });
+            sender.Tell(new Product.TakeResult(true, _product));
         });
-        Command<Product.CreateOrUpdate>(message =>
+        CommandAsync<Product.CreateOrUpdate>(async message =>
         {
             var sender = Sender;
-            Persist(message, msg =>
-            {
-                UpdateState(msg.ProductDetails).PipeTo(Self, success: () => new Product.CommandCompleted(message, sender));
-            });
+            await UpdateState(message.ProductDetails);
+            sender.Tell(Done.Instance);
         });
 
         #endregion
@@ -113,9 +96,6 @@ public class ProductActor: ReceivePersistentActor
         switch (message)
         {
             case SaveSnapshotSuccess :
-                return true;
-            case Product.CommandCompleted evt:
-                evt.ReplyTo.Tell(Done.Instance);
                 return true;
             default:
                 return base.Receive(message);
