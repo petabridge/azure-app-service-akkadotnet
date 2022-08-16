@@ -6,6 +6,8 @@
 //  </copyright>
 // -----------------------------------------------------------------------
 
+using LogLevel = Akka.Event.LogLevel;
+
 namespace Akka.ShoppingCart;
 
 public class Startup
@@ -36,7 +38,16 @@ public class Startup
         {
             builder
                 // Uncomment to enable ApplicationInsight logging
-                // .ConfigureLoggers(config => config.AddLoggerFactory())
+                /*
+                .ConfigureLoggers(logger =>
+                {
+                    logger.LogLevel = LogLevel.WarningLevel;
+                    logger.ClearLoggers();
+                    logger.AddLoggerFactory();
+                })
+                */
+                
+                // See HostingExtensions.AddShoppingCartRegions() to see how the shard regions are set-up
                 .AddShoppingCartRegions()
                 .WithActors((system, registry) =>
                 {
@@ -46,6 +57,8 @@ public class Startup
 
             if (_context.HostingEnvironment.IsDevelopment())
             {
+                // For local development, we will be using Akka.Discovery.ConfigServiceDiscovery instead of Akka.Discovery.Azure
+                // We will also use in memory persistence providers instead of using Akka.Persistence.Azure
                 builder
                     .WithAkkaManagement(setup =>
                     {
@@ -103,7 +116,7 @@ public class Startup
                         setup.ContactPointDiscovery = new ContactPointDiscoverySetup
                         {
                             ServiceName = nameof(ShoppingCartService),
-                            RequiredContactPointsNr = 2
+                            RequiredContactPointsNr = 1
                         };
                     })
                     .WithAzureDiscovery(setup =>

@@ -9,8 +9,8 @@
 
     <ItemGroup>
         <PackageReference Include="Akka.Cluster.Hosting" Version="0.4.1" />
-        <PackageReference Include="Akka.Discovery.Azure" Version="0.2.5-beta2" />
-        <PackageReference Include="Akka.Management.Cluster.Bootstrap" Version="0.2.5-beta2" />
+        <PackageReference Include="Akka.Discovery.Azure" Version="0.2.5-beta3" />
+        <PackageReference Include="Akka.Management.Cluster.Bootstrap" Version="0.2.5-beta3" />
         <PackageReference Include="Akka.Persistence.Azure.Hosting" Version="0.9.0" />
         <PackageReference Include="Azure.Identity" Version="1.6.1" />
         <PackageReference Include="Blazor.Serialization" Version="2.0.10" />
