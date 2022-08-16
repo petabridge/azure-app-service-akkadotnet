@@ -46,7 +46,7 @@ resource vnet 'Microsoft.Network/virtualNetworks@2021-05-01' = {
   }
 }
 
-module siloModule 'app-service.bicep' = {
+module clusterModule 'app-service.bicep' = {
   name: 'akkaClusterModule'
   params: {
     appName: appName
