@@ -69,7 +69,7 @@ In this tutorial, we will be using Azure CLI and Azure Bicep to create all of th
 
 We will use PowerShell, Azure CLI, and the provided .bicep files to automate our Azure resource creation. In PowerShell, navigate to the project directory and deploy the resources using [az deployment group create](https://docs.microsoft.com/en-us/cli/azure/deployment/group#az-deployment-group-create).
 
-Please replace _<resource-group-name>_ with the name of the Azure Resource Group you created earlier and replace _<unique-application-name>_ with a unique name to identify your web application.
+Replace _\<resource-group-name>_ with the name of the Azure Resource Group you created earlier and replace _\<unique-application-name>_ with a unique name to identify your web application.
 
 ```shell
 az deployment group create `
@@ -87,7 +87,7 @@ Publish the Akka.ShoppingCart project by using the [dotnet publish](https://docs
 dotnet publish --configuration Release .\src\Akka.ShoppingCart\Akka.ShoppingCart.csproj 
 ```
 
-Deploy the published _cluster.zip_ file to Azure App Services using [az webapp deploy](https://docs.microsoft.com/en-us/cli/azure/webapp#az-webapp-deploy). Again, please replace _<resource-group-name>_ and _<unique-application-name>_ the same names you used in the earlier step.
+Deploy the published _cluster.zip_ file to Azure App Services using [az webapp deploy](https://docs.microsoft.com/en-us/cli/azure/webapp#az-webapp-deploy). Again, replace _\<resource-group-name>_ and _\<unique-application-name>_ the same names you used in the earlier step.
 
 ```shell
 az webapp deploy --name <unique-application-name> `
