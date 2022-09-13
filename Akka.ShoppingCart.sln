@@ -10,6 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		flex\logs-and-insights.bicep = flex\logs-and-insights.bicep
 		flex\main.bicep = flex\main.bicep
 		flex\storage.bicep = flex\storage.bicep
+		deploy.ps1 = deploy.ps1
 	EndProjectSection
 EndProject
 Global
