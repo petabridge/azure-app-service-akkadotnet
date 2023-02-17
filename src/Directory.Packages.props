@@ -1,0 +1,19 @@
+<Project>
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+  <!-- App dependencies -->
+  <ItemGroup>
+	  <PackageVersion Include="Akka.Cluster.Hosting" Version="$(AkkaClusterHostingVersion)" />
+	  <PackageVersion Include="Akka.Discovery.Azure" Version="$(AkkaDiscoveryAzureVersion)" />
+	  <PackageVersion Include="Akka.Management.Cluster.Bootstrap" Version="$(AkkaManagementVersion)" />
+	  <PackageVersion Include="Akka.Persistence.Azure.Hosting" Version="$(AkkaAzureHostingVersion)" />
+	  <PackageVersion Include="Azure.Identity" Version="$(AzureIdentityVersion)" />
+	  <PackageVersion Include="Blazor.Serialization" Version="$(BlazorSerializationVersion)" />
+	  <PackageVersion Include="Blazor.LocalStorage" Version="$(BlazorLocalStorageVersion)" />
+	  <PackageVersion Include="Bogus" Version="$(BogusVersion)" />
+	  <PackageVersion Include="Microsoft.ApplicationInsights.AspNetCore" Version="$(MicrosoftAspNetCoreVersion)" />
+	  <PackageVersion Include="MudBlazor" Version="$(MudBlazorVersion)" />
+  </ItemGroup>
+  
+</Project>
