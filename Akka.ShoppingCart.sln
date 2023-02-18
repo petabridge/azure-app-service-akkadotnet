@@ -1,19 +1,24 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Akka.ShoppingCart.Abstraction", "src\Akka.ShoppingCart.Abstraction\Akka.ShoppingCart.Abstraction.csproj", "{9E50FAF4-4124-4B42-A2E5-D952376BAEE2}"
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33213.308
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Akka.ShoppingCart.Abstraction", "src\Akka.ShoppingCart.Abstraction\Akka.ShoppingCart.Abstraction.csproj", "{9E50FAF4-4124-4B42-A2E5-D952376BAEE2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Akka.ShoppingCart", "src\Akka.ShoppingCart\Akka.ShoppingCart.csproj", "{FB710D09-B5D2-4A99-9B1E-D59030F32A2E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Akka.ShoppingCart", "src\Akka.ShoppingCart\Akka.ShoppingCart.csproj", "{FB710D09-B5D2-4A99-9B1E-D59030F32A2E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F1A2CD5F-E3DC-463F-A8CE-BA7EB7C274D8}"
 	ProjectSection(SolutionItems) = preProject
 		flex\app-service.bicep = flex\app-service.bicep
+		deploy.ps1 = deploy.ps1
 		flex\logs-and-insights.bicep = flex\logs-and-insights.bicep
 		flex\main.bicep = flex\main.bicep
 		flex\storage.bicep = flex\storage.bicep
-		deploy.ps1 = deploy.ps1
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_build", "build\_build.csproj", "{008CC7D6-24AE-458E-BD33-13954D8B2271}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Akka.ShoppingCart.Tests", "Akka.ShoppingCart.Tests\Akka.ShoppingCart.Tests.csproj", "{2F04C9C6-16BF-452E-B9C7-234E218A25F3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,8 +26,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{008CC7D6-24AE-458E-BD33-13954D8B2271}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{008CC7D6-24AE-458E-BD33-13954D8B2271}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9E50FAF4-4124-4B42-A2E5-D952376BAEE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9E50FAF4-4124-4B42-A2E5-D952376BAEE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9E50FAF4-4124-4B42-A2E5-D952376BAEE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -31,5 +34,17 @@ Global
 		{FB710D09-B5D2-4A99-9B1E-D59030F32A2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FB710D09-B5D2-4A99-9B1E-D59030F32A2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FB710D09-B5D2-4A99-9B1E-D59030F32A2E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{008CC7D6-24AE-458E-BD33-13954D8B2271}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{008CC7D6-24AE-458E-BD33-13954D8B2271}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F04C9C6-16BF-452E-B9C7-234E218A25F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F04C9C6-16BF-452E-B9C7-234E218A25F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F04C9C6-16BF-452E-B9C7-234E218A25F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F04C9C6-16BF-452E-B9C7-234E218A25F3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0C27D294-109D-41F9-A6FD-5916250EF187}
 	EndGlobalSection
 EndGlobal

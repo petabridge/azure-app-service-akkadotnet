@@ -11,6 +11,6 @@ using Akka.ShoppingCart;
 await Host.CreateDefaultBuilder(args)
     .ConfigureWebHostDefaults(config =>
     {
-        config.UseStartup(context => new Startup(context));
+       config.UseStartup(context => new Startup(context));
     })
     .RunConsoleAsync();

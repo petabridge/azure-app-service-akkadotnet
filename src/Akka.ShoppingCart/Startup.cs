@@ -6,8 +6,6 @@
 //  </copyright>
 // -----------------------------------------------------------------------
 
-using LogLevel = Akka.Event.LogLevel;
-
 namespace Akka.ShoppingCart;
 
 public class Startup
@@ -57,6 +55,7 @@ public class Startup
 
             if (_context.HostingEnvironment.IsDevelopment())
             {
+                
                 // For local development, we will be using Akka.Discovery.ConfigServiceDiscovery instead of Akka.Discovery.Azure
                 // We will also use in memory persistence providers instead of using Akka.Persistence.Azure
                 builder
@@ -137,7 +136,7 @@ public class Startup
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
         if (env.IsDevelopment())
-        {
+        {            
             app.UseDeveloperExceptionPage();
         }
         else

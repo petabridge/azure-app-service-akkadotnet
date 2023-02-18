@@ -6,8 +6,6 @@
 //  </copyright>
 // -----------------------------------------------------------------------
 
-using Akka.Hosting;
-
 namespace Akka.ShoppingCart.Services;
 
 public class ToastService

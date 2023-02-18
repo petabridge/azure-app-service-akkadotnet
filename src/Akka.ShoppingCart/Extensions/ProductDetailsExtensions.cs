@@ -8,9 +8,9 @@
 
 namespace Akka.ShoppingCart.Extensions;
 
-internal static class ProductDetailsExtensions
+public static class ProductDetailsExtensions
 {
-    internal static Faker<ProductDetails> GetBogusFaker(this ProductDetails productDetails) =>
+    public static Faker<ProductDetails> GetBogusFaker(this ProductDetails productDetails) =>
         new Faker<ProductDetails>()
             .StrictMode(true)
             .RuleFor(p => p.Id, (f, p) => f.Random.Number(1, 100_000).ToString())
