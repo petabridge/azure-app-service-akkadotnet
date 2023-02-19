@@ -1,5 +1,6 @@
-﻿using Akka.ShoppingCart.Model;
-using Akka.ShoppingCart.Services;
+﻿
+using Akka.ShoppingCart.Api.Model;
+using Akka.ShoppingCart.Api.Services;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
@@ -7,7 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace Akka.ShoppingCart.Tests
+namespace Akka.ShoppingCart.Api.Tests
 {
     public class ApiWebApplicationFactory : WebApplicationFactory<PostModel>
     {
@@ -26,8 +27,8 @@ namespace Akka.ShoppingCart.Tests
 
             builder.ConfigureTestServices(services =>
             {
-                services.AddSingleton<BlazorService>();
-                services.AddHostedService<BlazorService>(sp => sp.GetRequiredService<BlazorService>());
+                services.AddSingleton<ApiService>();
+                services.AddHostedService<ApiService>(sp => sp.GetRequiredService<ApiService>());
             });
         }
     }

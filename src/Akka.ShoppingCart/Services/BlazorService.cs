@@ -6,7 +6,7 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
-namespace Akka.ShoppingCart.Service
+namespace Akka.ShoppingCart.Services
 {
     public sealed class BlazorService : IHostedService
     {
@@ -24,7 +24,7 @@ namespace Akka.ShoppingCart.Service
             _configuration = configuration;
         }
         public Task StartAsync(CancellationToken cancellationToken)
-        {            
+        {
             return Task.CompletedTask;
         }
 

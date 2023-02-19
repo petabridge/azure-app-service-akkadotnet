@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using System.Text.Json;
 
-namespace Akka.ShoppingCart.Tests
+namespace Akka.ShoppingCart.Api.Tests
 {
     public static class ContentHelper
     {

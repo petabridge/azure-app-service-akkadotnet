@@ -6,11 +6,6 @@
 //  </copyright>
 // -----------------------------------------------------------------------
 
-using Akka.ShoppingCart.Service;
-using MudBlazor;
-using Reactive.Streams;
-using LogLevel = Akka.Event.LogLevel;
-
 namespace Akka.ShoppingCart;
 
 public class Startup

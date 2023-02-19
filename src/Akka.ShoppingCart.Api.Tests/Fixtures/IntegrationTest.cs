@@ -1,6 +1,6 @@
 ﻿//using Respawn;
 
-namespace Akka.ShoppingCart.Tests
+namespace Akka.ShoppingCart.Api.Tests
 {
     public abstract class IntegrationTest : IClassFixture<ApiWebApplicationFactory>
     {
