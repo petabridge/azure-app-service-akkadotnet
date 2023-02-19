@@ -13,4 +13,5 @@ await Host.CreateDefaultBuilder(args)
     {
         config.UseStartup(context => new Startup(context));
     })
-    .RunConsoleAsync();
+    .Build()
+    .RunAsync();
