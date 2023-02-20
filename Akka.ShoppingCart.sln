@@ -20,10 +20,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Akka.ShoppingCart.Tests", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_build", "build\_build.csproj", "{745A6FB1-65AD-4E0E-9E80-543BFF9B175A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Akka.ShoppingCart.Api", "src\Akka.ShoppingCart.Api\Akka.ShoppingCart.Api.csproj", "{10F78BA6-115E-4F74-A837-B600C43642F2}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Akka.ShoppingCart.Api.Tests", "src\Akka.ShoppingCart.Api.Tests\Akka.ShoppingCart.Api.Tests.csproj", "{1769CC52-B8BA-4948-806D-B6B333FA139F}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,14 +40,6 @@ Global
 		{60F52596-E322-4969-9160-6BA8AF9A233C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{745A6FB1-65AD-4E0E-9E80-543BFF9B175A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{745A6FB1-65AD-4E0E-9E80-543BFF9B175A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{10F78BA6-115E-4F74-A837-B600C43642F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{10F78BA6-115E-4F74-A837-B600C43642F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{10F78BA6-115E-4F74-A837-B600C43642F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{10F78BA6-115E-4F74-A837-B600C43642F2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1769CC52-B8BA-4948-806D-B6B333FA139F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1769CC52-B8BA-4948-806D-B6B333FA139F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1769CC52-B8BA-4948-806D-B6B333FA139F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1769CC52-B8BA-4948-806D-B6B333FA139F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
