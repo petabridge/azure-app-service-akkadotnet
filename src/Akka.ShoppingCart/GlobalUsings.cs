@@ -21,7 +21,7 @@ global using Akka.ShoppingCart.Extensions;
 global using Akka.ShoppingCart.Messages;
 global using Akka.ShoppingCart.Services;
 global using Akka.ShoppingCart.Telemetry;
-
+global using Akka.HealthCheck.Hosting;
 global using Akka.Actor;
 global using Akka.Cluster.Hosting;
 global using Akka.Configuration;

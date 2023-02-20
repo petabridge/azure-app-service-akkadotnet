@@ -19,6 +19,8 @@ public class Startup
     
     public void ConfigureServices(IServiceCollection services)
     {
+        var akkaConfig = _context.Configuration.GetRequiredSection(nameof(AkkaClusterConfig))
+            .Get<AkkaClusterConfig>();
         services.AddMudServices();
         services.AddRazorPages();
         services.AddServerSideBlazor();
@@ -36,15 +38,24 @@ public class Startup
         {
             builder
                 // Uncomment to enable ApplicationInsight logging
-                /*
-                .ConfigureLoggers(logger =>
+            /*
+            .ConfigureLoggers(logger =>
+            {
+                logger.LogLevel = LogLevel.WarningLevel;
+                logger.ClearLoggers();
+                logger.AddLoggerFactory();
+            })
+            */
+                // Add Akka.HealthCheck
+                .WithHealthCheck(options =>
                 {
-                    logger.LogLevel = LogLevel.WarningLevel;
-                    logger.ClearLoggers();
-                    logger.AddLoggerFactory();
+                    // Here we're adding all of the built-in providers
+                    options.AddProviders(HealthCheckType.All);
+                    options.Liveness.Transport = HealthCheckTransport.Tcp;
+                    options.Liveness.TcpPort = 15000;
+                    options.Readiness.Transport = HealthCheckTransport.Tcp;
+                    options.Readiness.TcpPort = 15001;
                 })
-                */
-                
                 // See HostingExtensions.AddShoppingCartRegions() to see how the shard regions are set-up
                 .AddShoppingCartRegions()
                 .WithActors((system, registry) =>
@@ -78,7 +89,11 @@ public class Startup
                         [nameof(ShoppingCartService)] = new() { "localhost:18558" }
                     })
                     .WithRemoting("localhost", 12552)
-                    .WithClustering()
+                    .WithClustering(new ClusterOptions()
+                    {
+                        Roles = akkaConfig.Roles,
+                        SeedNodes = akkaConfig.SeedNodes
+                    })
                     .WithInMemoryJournal()
                     .WithInMemorySnapshotStore()
                     .WithActors(async (_, registry) =>
@@ -124,7 +139,11 @@ public class Startup
                         setup.ServiceName = nameof(ShoppingCartService);
                         setup.ConnectionString = connectionString;
                     })
-                    .WithClustering()
+                    .WithClustering(new ClusterOptions()
+                    {
+                        Roles = akkaConfig.Roles,
+                        SeedNodes = akkaConfig.SeedNodes
+                    })
                     .WithRemoting(endpointAddress, remotePort)
                     .WithAzureTableJournal(connectionString)
                     .WithAzureBlobsSnapshotStore(connectionString);

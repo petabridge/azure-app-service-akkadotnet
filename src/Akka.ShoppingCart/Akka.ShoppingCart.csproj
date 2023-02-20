@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
     <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
+        <TargetFramework>net7.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <IsTransformWebConfigDisabled>false</IsTransformWebConfigDisabled>
@@ -19,6 +19,8 @@
         <PackageReference Include="Bogus" />
         <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" />
         <PackageReference Include="MudBlazor" />
+        <PackageReference Include="Akka.HealthCheck.Hosting" />
+        
     </ItemGroup>
 
     <ItemGroup>

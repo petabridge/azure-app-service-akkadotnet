@@ -1,10 +1,13 @@
 using Akka;
+using Akka.HealthCheck.Hosting;
+using Akka.ShoppingCart.Api;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 var _context = builder;
 // Add services to the container.
-
+var akkaConfig = _context.Configuration.GetRequiredSection(nameof(AkkaClusterConfig))
+            .Get<AkkaClusterConfig>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -24,7 +27,15 @@ builder.Services.AddAkka("ShoppingCart", builder =>
             logger.AddLoggerFactory();
         })
         */
-
+        .WithHealthCheck(options =>
+        {
+            // Here we're adding all of the built-in providers
+            options.AddProviders(HealthCheckType.All);
+            options.Liveness.Transport = HealthCheckTransport.Tcp;
+            options.Liveness.TcpPort = 15000;
+            options.Readiness.Transport = HealthCheckTransport.Tcp;
+            options.Readiness.TcpPort = 15001;
+        })
         // See HostingExtensions.AddShoppingCartRegions() to see how the shard regions are set-up
         .AddShoppingCartRegions()
         .WithActors((system, registry) =>
@@ -58,7 +69,11 @@ builder.Services.AddAkka("ShoppingCart", builder =>
                 [nameof(ShoppingCartService)] = new() { "localhost:18558" }
             })
             .WithRemoting("localhost", 12552)
-            .WithClustering()
+            .WithClustering(new ClusterOptions()
+            {
+                Roles = akkaConfig.Roles,
+                SeedNodes = akkaConfig.SeedNodes
+            })
             .WithInMemoryJournal()
             .WithInMemorySnapshotStore()
             .WithActors(async (_, registry) =>
@@ -104,7 +119,11 @@ builder.Services.AddAkka("ShoppingCart", builder =>
                 setup.ServiceName = nameof(ShoppingCartService);
                 setup.ConnectionString = connectionString;
             })
-            .WithClustering()
+            .WithClustering(new ClusterOptions()
+            {
+                Roles = akkaConfig.Roles,
+                SeedNodes = akkaConfig.SeedNodes
+            })
             .WithRemoting(endpointAddress, remotePort)
             .WithAzureTableJournal(connectionString)
             .WithAzureBlobsSnapshotStore(connectionString);
