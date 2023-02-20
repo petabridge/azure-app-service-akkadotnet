@@ -22,7 +22,6 @@ api/
 [Rr]eleases/
 x64/
 x86/
-build/
 bld/
 [Bb]in/
 [Oo]bj/
@@ -208,7 +207,7 @@ FakesAssemblies/
 tools/*
 !tools/AzCopy
 
-build/
+
 .nuget/
 .dotnet/
 .idea/.idea.NBench.NetCore/.idea/*
