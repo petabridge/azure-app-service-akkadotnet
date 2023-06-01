@@ -8,36 +8,36 @@
             </MudTextField>
         </MudPaper>
     </MudToolBar>
-    <MudTable Items=@Products Hover="true" Breakpoint="Breakpoint.Sm" AllowUnsorted=true
-        Context="product" Dense=true FixedHeader=true RowsPerPage=10 Filter=OnFilter SortLabel="Sort By" Outlined="true">
+    <MudTable Items="@Products" Hover="true" Breakpoint="Breakpoint.Sm" AllowUnsorted="true"
+        Context="product" Dense="true" FixedHeader="true" RowsPerPage="10" Filter="OnFilter" SortLabel="Sort By" Outlined="true">
         <HeaderContent>
             <MudTh>Products</MudTh>
             <MudTh>
-                <MudTableSortLabel SortBy=@(new Func<ProductDetails, object>(p => p.Name))>
+                <MudTableSortLabel SortBy="@(new Func<ProductDetails, object>(p => p.Name))">
                     Name
                 </MudTableSortLabel>
             </MudTh>
             <MudTh>
-                <MudTableSortLabel SortBy=@(new Func<ProductDetails, object>(p => p.Description))>
+                <MudTableSortLabel SortBy="@(new Func<ProductDetails, object>(p => p.Description))">
                     Description
                 </MudTableSortLabel>
             </MudTh>
             <MudTh>
-                <MudTableSortLabel SortBy=@(new Func<ProductDetails, object>(p => p.Quantity))>
+                <MudTableSortLabel SortBy="@(new Func<ProductDetails, object>(p => p.Quantity))">
                     Quantity
                 </MudTableSortLabel>
             </MudTh>
             <MudTh>
-                <MudTableSortLabel SortBy=@(new Func<ProductDetails, object>(p => p.UnitPrice))>
+                <MudTableSortLabel SortBy="@(new Func<ProductDetails, object>(p => p.UnitPrice))">
                     Price
                 </MudTableSortLabel>
             </MudTh>
         </HeaderContent>
         <RowTemplate>
             <MudTd>
-                <MudFab Disabled=@(IsInCart?.Invoke(product) ?? false) Size=Size.Small
-                    Color=Color.Primary Icon=@Icons.Filled.AddShoppingCart
-                    OnClick=@(async _ => await AddToCartAsync(product.Id))/>
+                <MudFab Disabled="@(IsInCart?.Invoke(product) ?? false)" Size="Size.Small"
+                    Color="Color.Primary" Icon="@Icons.Material.Filled.AddShoppingCart"
+                    OnClick="@(async _ => await AddToCartAsync(product.Id))"/>
             </MudTd>
             <MudTd DataLabel="Name">@product.Name</MudTd>
             <MudTd DataLabel="Description">@product.Description</MudTd>

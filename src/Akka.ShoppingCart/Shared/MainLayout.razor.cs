@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
 //  <copyright file="MainLayout.razor.cs" company="Petabridge, LLC">
-//      Copyright (C) 2015-2022 Petabridge, LLC <https://petabridge.com>
+//      Copyright (C) 2015-2023 Petabridge, LLC <https://petabridge.com>
 //      Copyright (c) Microsoft. All rights reserved.
 //      Licensed under the MIT License.
 //  </copyright>
@@ -13,17 +13,17 @@ namespace Akka.ShoppingCart.Shared;
 public partial class MainLayout
 {
     const string PrefersDarkThemeKey = "prefers-dark-scheme";
-    
-    readonly MudTheme _theme = new()
+
+    private readonly MudTheme _theme = new()
     {
-        Palette = new Palette()
+        Palette = new PaletteLight
         {
             Tertiary = "#7e6fff",
             DrawerIcon = "#aaa9b9",
             DrawerText = "#aaa9b9",
             DrawerBackground = "#303030"
         },
-        PaletteDark = new Palette()
+        PaletteDark = new PaletteDark
         {
             Primary = "#7e6fff",
             Tertiary = "#7e6fff",

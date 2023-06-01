@@ -3,9 +3,9 @@
 <MudToolBar DisableGutters="true">
     <MudText Typo="Typo.h4">Shopping Cart</MudText>
     <MudSpacer />
-    <MudButton Variant="Variant.Outlined" StartIcon=@Icons.Filled.RemoveShoppingCart
-        Disabled=@(_cartItems?.Any() is false) Size=@Size.Large
-        Color="Color.Secondary" OnClick=@EmptyCartAsync>
+    <MudButton Variant="Variant.Outlined" StartIcon="@Icons.Material.Filled.RemoveShoppingCart"
+        Disabled="@(_cartItems?.Any() is false)" Size="@Size.Large"
+        Color="Color.Secondary" OnClick="@EmptyCartAsync">
         Empty Cart
     </MudButton>
 </MudToolBar>
@@ -23,6 +23,6 @@
         </MudStack>
     </MudItem>
     <MudItem xs="12" md="4">
-        <ShoppingCartSummary Items=_cartItems />
+        <ShoppingCartSummary Items="_cartItems" />
     </MudItem>
 </MudGrid>

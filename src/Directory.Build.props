@@ -1,0 +1,32 @@
+<Project>
+  <PropertyGroup>
+    <Copyright>Copyright © 2017-2023 Petabridge</Copyright>
+    <Authors>Petabridge</Authors>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AkkaVersion>1.5.1</AkkaVersion>
+    <AkkaHostingVersion>1.5.7</AkkaHostingVersion>
+    <AkkaManagementVersion>1.5.7</AkkaManagementVersion>
+    <AkkaAzureVersion>1.5.1</AkkaAzureVersion>
+    <BlazorVersion>7.0.3</BlazorVersion>
+  </PropertyGroup>
+  <PropertyGroup>
+    <!-- Optional: Publish the repository URL in the built .nupkg (in the NuSpec <Repository> element) -->
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <!-- Optional: Embed source files that are not tracked by the source control manager in the PDB -->
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <!-- Optional: Build symbol package (.snupkg) to distribute the PDB containing Source Link -->
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="All" />
+  </ItemGroup>
+</Project>

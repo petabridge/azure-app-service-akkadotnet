@@ -7,7 +7,7 @@
             <MudText Typo="Typo.body2">@CartItem.Product.Description</MudText>
         </MudItem>
         <MudItem xs="2">
-            <MudNumericField Variant=Variant.Outlined Margin="Margin.Dense"
+            <MudNumericField Variant="Variant.Outlined" Margin="Margin.Dense"
                     Min="1" Max="@CartItem.Product.Quantity" T="int" Value="_desiredQuantity" ValueChanged="SaveOnUpdateAsync" />
         </MudItem>
         <MudItem xs="4">
@@ -15,7 +15,7 @@
                 <MudText Typo="Typo.subtitle1">
                     <b>@CartItem.TotalPrice.ToString("C2")</b>
                 </MudText>
-                <MudButton OnClick=OnRemoveAsync Color="Color.Primary" Size="Size.Small">Remove</MudButton>
+                <MudButton OnClick="OnRemoveAsync" Color="Color.Primary" Size="Size.Small">Remove</MudButton>
             </MudStack>
         </MudItem>
     </MudGrid>

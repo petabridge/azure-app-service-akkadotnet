@@ -9,29 +9,29 @@
             </MudTextField>
         </MudPaper>
     </MudToolBar>
-    <MudTable Items=@Products Hover="true" Breakpoint="Breakpoint.Sm" AllowUnsorted=true Filter=OnFilter
-              CanCancelEdit=true Context="product" Dense=true FixedHeader=true RowsPerPage=10 RowEditCommit=OnEdit
-              RowEditPreview=BackupItem RowEditCancel=RevertEditChanges ReadOnly=false SortLabel="Sort By"
+    <MudTable Items="@Products" Hover="true" Breakpoint="Breakpoint.Sm" AllowUnsorted="true" Filter="OnFilter"
+              CanCancelEdit="true" Context="product" Dense="true" FixedHeader="true" RowsPerPage="10" RowEditCommit="OnEdit"
+              RowEditPreview="BackupItem" RowEditCancel="RevertEditChanges" ReadOnly="false" SortLabel="Sort By"
               CancelEditTooltip="Discard changes..." CommitEditTooltip="Save changes..." Outlined="true"
-              IsEditRowSwitchingBlocked=true>
+              IsEditRowSwitchingBlocked="true">
         <HeaderContent>
             <MudTh>
-                <MudTableSortLabel SortBy=@(new Func<ProductDetails, object>(p => p.Name))>
+                <MudTableSortLabel SortBy="@(new Func<ProductDetails, object>(p => p.Name))">
                     Name
                 </MudTableSortLabel>
             </MudTh>
             <MudTh>
-                <MudTableSortLabel SortBy=@(new Func<ProductDetails, object>(p => p.Description))>
+                <MudTableSortLabel SortBy="@(new Func<ProductDetails, object>(p => p.Description))">
                     Description
                 </MudTableSortLabel>
             </MudTh>
             <MudTh>
-                <MudTableSortLabel SortBy=@(new Func<ProductDetails, object>(p => p.Quantity))>
+                <MudTableSortLabel SortBy="@(new Func<ProductDetails, object>(p => p.Quantity))">
                     Quantity
                 </MudTableSortLabel>
             </MudTh>
             <MudTh>
-                <MudTableSortLabel SortBy=@(new Func<ProductDetails, object>(p => p.UnitPrice))>
+                <MudTableSortLabel SortBy="@(new Func<ProductDetails, object>(p => p.UnitPrice))">
                     Price
                 </MudTableSortLabel>
             </MudTh>
@@ -44,16 +44,16 @@
         </RowTemplate>
         <RowEditingTemplate>
             <MudTd DataLabel="Name">
-                <MudTextField @bind-Value=@product.Name Required />
+                <MudTextField @bind-Value="@product.Name" Required />
             </MudTd>
             <MudTd DataLabel="Description">
-                <MudTextField @bind-Value=@product.Description Required />
+                <MudTextField @bind-Value="@product.Description" Required />
             </MudTd>
             <MudTd DataLabel="Quantity">
-                <MudNumericField @bind-Value=@product.Quantity Required Min="1" />
+                <MudNumericField @bind-Value="@product.Quantity" Required Min="1" />
             </MudTd>
             <MudTd DataLabel="Price">
-                <MudNumericField T="decimal" @bind-Value=@product.UnitPrice Required Min="0.01m" />
+                <MudNumericField T="decimal" @bind-Value="@product.UnitPrice" Required Min="0.01m" />
             </MudTd>
         </RowEditingTemplate>
         <PagerContent>
