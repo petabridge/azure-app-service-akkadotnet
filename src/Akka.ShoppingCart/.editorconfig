@@ -7,4 +7,4 @@ root = true
 # All files 
 [*]
 indent_style = space
-file_header_template = -----------------------------------------------------------------------\n<copyright file="{fileName}" company="Petabridge, LLC">\n    Copyright (C) 2015-2022 Petabridge, LLC <https://petabridge.com>\n    Copyright (c) Microsoft. All rights reserved.\n    Licensed under the MIT License.\n</copyright>\n-----------------------------------------------------------------------
+file_header_template = -----------------------------------------------------------------------\n<copyright file="{fileName}" company="Petabridge, LLC">\n    Copyright (C) 2015-2023 Petabridge, LLC <https://petabridge.com>\n    Copyright (c) Microsoft. All rights reserved.\n    Licensed under the MIT License.\n</copyright>\n-----------------------------------------------------------------------
